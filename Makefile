@@ -11,13 +11,19 @@ TARGET_C=$(TARGET).c
 TARGET_O=$(TARGET).o
 TARGET_A=$(TARGET).a
 
-
+.PHONY: all
 all: release
 
+.PHONY: release
 release: $(TARGET_A)
 
+.PHONY: debug
 debug: CFLAGS += $(CFLAGS_DEBUG)
 debug: $(TARGET_A)
+
+.PHONY: examples
+examples: $(TARGET_A)
+	$(MAKE) -C examples
 
 $(TARGET_A): $(TARGET_O) Makefile
 	ar $(ARFLAGS) $(TARGET_A) $(TARGET_O)
@@ -27,3 +33,4 @@ $(TARGET_O): $(TARGET_C)
 
 clean:
 	rm -f $(TARGET_O) $(TARGET_A)
+	rm -f example_*
