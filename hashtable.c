@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
 
 #include "hashtable.h"
 
@@ -17,7 +18,9 @@ bool hashtable_set(HashTable* hashtable, char* key, void* value) {
 	unsigned long hash = hash_str(key);
 	unsigned int idx = hash % hashtable->size;
 
-	if(hashtable->entries[idx].full_hash == hash) {
+	char* existing_key = hashtable->entries[idx].key;
+	
+	if(existing_key != NULL && strcmp(existing_key, key) == 0) {
 		hashtable->entries[idx].value = value;
 		return true;
 	}
@@ -31,8 +34,9 @@ bool hashtable_set(HashTable* hashtable, char* key, void* value) {
 		}
 	}
 
-	hashtable->entries[idx].full_hash = hash;
 	hashtable->entries[idx].taken = true;
+	hashtable->entries[idx].key = malloc(sizeof(char) * (strlen(key) + 1));
+	strcpy(hashtable->entries[idx].key, key);
 	hashtable->entries[idx].value = value;
 	return true;
 }
@@ -55,7 +59,7 @@ bool hashtable_get(HashTable* hashtable, HashEntry* buffer, char* key) {
 	}
 
 	unsigned int checked = 0;
-	while(hashtable->entries[idx].full_hash != hash) {
+	while(hashtable->entries[idx].key != NULL && strcmp(hashtable->entries[idx].key, key) != 0) {
 		++idx;
 		++checked;
 
@@ -68,8 +72,8 @@ bool hashtable_get(HashTable* hashtable, HashEntry* buffer, char* key) {
 		}
 	}
 
-	buffer->full_hash = hashtable->entries[idx].full_hash;
 	buffer->taken = hashtable->entries[idx].taken;
+	buffer->key = hashtable->entries[idx].key;
 	buffer->value = hashtable->entries[idx].value;
 	return true;
 }
@@ -91,9 +95,11 @@ HashTable* hashtable_new(enum HashTableType type, size_t size) {
 }
 
 void hashtable_free(HashTable* hashtable) {
-	if(hashtable->type == INT_T) {
-		for(size_t i = 0; i < hashtable->size; ++i)
+	for(size_t i = 1; i < hashtable->size; ++i) {
+		if(hashtable->type == INT_T) {
 			free(hashtable->entries[i].value);
+		}
+		free(hashtable->entries[i].key);
 	}
 	free(hashtable->entries);
 	free(hashtable);

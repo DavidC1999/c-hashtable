@@ -1,4 +1,4 @@
-CFLAGS=-W -Wall -Wextra -Werror -g -std=c11
+CFLAGS=-W -Wall -Wextra -Werror -g -std=c11 -I ..
 
 SRCS := $(wildcard *.c)
 EXECS := $(patsubst %.c,%,$(SRCS))
@@ -7,4 +7,4 @@ EXECS := $(patsubst %.c,%,$(SRCS))
 all: $(EXECS) Makefile
 
 %: %.c
-	$(CC) $^ ../hashtable.a -o ../example_$@ -I ..
+	$(CC) $(CFLAGS) $^ ../hashtable.a -o ../example_$@

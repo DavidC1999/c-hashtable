@@ -9,8 +9,8 @@ enum HashTableType {
 };
 
 typedef struct HashEntry {
-	unsigned long full_hash;
 	bool taken;
+	char* key;
 	void* value;
 } HashEntry;
 

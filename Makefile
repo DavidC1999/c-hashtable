@@ -22,7 +22,7 @@ debug: CFLAGS += $(CFLAGS_DEBUG)
 debug: $(TARGET_A)
 
 .PHONY: examples
-examples: $(TARGET_A)
+examples: debug
 	$(MAKE) -C examples
 
 $(TARGET_A): $(TARGET_O) Makefile
