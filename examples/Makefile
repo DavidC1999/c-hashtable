@@ -5,9 +5,6 @@ EXECS := $(patsubst %.c,%,$(SRCS))
 
 .PHONY: all
 all: $(EXECS) Makefile
-	for exec in $(EXECS); do \
-		mv $$exec ../example_$$exec ; \
-	done
 
 %: %.c
-	$(CC) $^ ../hashtable.a -o $@ -I ..
+	$(CC) $^ ../hashtable.a -o ../example_$@ -I ..
