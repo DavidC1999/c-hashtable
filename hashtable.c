@@ -90,13 +90,24 @@ HashTable* hashtable_new(enum HashTableType type, size_t size) {
 	HashTable* hashtable = malloc(sizeof(HashTable));
 	hashtable->type = type;
 	hashtable->size = size;
+	switch(type) {
+		case ANY_T:
+			hashtable->free_entry_values = false;
+			break;
+		case INT_T:
+			hashtable->free_entry_values = true;
+	}
 	hashtable->entries = calloc(size, sizeof(HashEntry)); // initialise to 0, 'taken' is implicitly false
 	return hashtable;
 }
 
+void hashtable_force_free_values(HashTable* hashtable) {
+	hashtable->free_entry_values = true;
+}
+
 void hashtable_free(HashTable* hashtable) {
 	for(size_t i = 1; i < hashtable->size; ++i) {
-		if(hashtable->type == INT_T) {
+		if(hashtable->free_entry_values) {
 			free(hashtable->entries[i].value);
 		}
 		free(hashtable->entries[i].key);
