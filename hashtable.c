@@ -86,6 +86,49 @@ bool hashtable_get_int(HashTable* hashtable, int* buffer, char* key) {
 	return true;
 }
 
+size_t hashtable_count(HashTable* hashtable) {
+	size_t count = 0;
+
+	for(unsigned int i = 0; i < hashtable->size; ++i) {
+		if(hashtable->entries[i].taken) ++count;
+	}
+
+	return count;
+}
+
+bool hashtable_get_next(HashTable* hashtable, HashEntry* buffer) {
+	static unsigned int idx = -1;
+	
+	++idx;
+	
+	while(!hashtable->entries[idx].taken) {
+		++idx;
+		if(idx >= hashtable->size) {
+			idx = 0;
+			return false;
+		}
+	}
+
+	buffer->taken = hashtable->entries[idx].taken;
+	buffer->key = hashtable->entries[idx].key;
+	buffer->value = hashtable->entries[idx].value;
+
+	return true;
+}
+
+bool hashtable_get_next_int(HashTable* hashtable, char** buffer_key, int* buffer_value) {
+	if(hashtable->type != INT_T) return false;
+
+	HashEntry buffer;
+	if(hashtable_get_next(hashtable, &buffer)) {
+		*buffer_key = buffer.key;
+		*buffer_value = *(int*)buffer.value;
+		return true;
+	}
+
+	return false;
+}
+
 HashTable* hashtable_new(enum HashTableType type, size_t size) {
 	HashTable* hashtable = malloc(sizeof(HashTable));
 	hashtable->type = type;

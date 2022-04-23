@@ -22,6 +22,10 @@ int main(int argc, char** argv) {
 	hashtable_set(my_hashtable, "greeter_func", greet);
 	hashtable_set(my_hashtable, "goodbye_func", goodbye);
 
+	size_t amt = hashtable_count(my_hashtable);
+	printf("The hashtable has %lu entries\n", amt);
+
+
 	HashEntry greeter_entry, goodbye_entry;
 	hashtable_get(my_hashtable, &greeter_entry, "greeter_func");
 	hashtable_get(my_hashtable, &goodbye_entry, "goodbye_func");
