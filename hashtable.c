@@ -41,10 +41,10 @@ bool hashtable_set(HashTable* hashtable, char* key, void* value) {
     return true;
 }
 
-bool hashtable_set_int(HashTable* hashtable, char* key, int value) {
+bool hashtable_set_int(HashTable* hashtable, char* key, int64_t value) {
     if (hashtable->type != INT_T) return false;
 
-    int* new_value = malloc(sizeof(int));
+    int64_t* new_value = malloc(sizeof(int64_t));
     *new_value = value;
 
     return hashtable_set(hashtable, key, new_value);
@@ -78,11 +78,11 @@ bool hashtable_get(HashTable* hashtable, HashEntry* buffer, char* key) {
     return true;
 }
 
-bool hashtable_get_int(HashTable* hashtable, int* buffer, char* key) {
+bool hashtable_get_int(HashTable* hashtable, int64_t* buffer, char* key) {
     HashEntry entry_buffer;
     if (!hashtable_get(hashtable, &entry_buffer, key)) return false;
 
-    *buffer = *(int*)entry_buffer.value;
+    *buffer = *(int64_t*)entry_buffer.value;
     return true;
 }
 
@@ -116,13 +116,13 @@ bool hashtable_get_next(HashTable* hashtable, HashEntry* buffer) {
     return true;
 }
 
-bool hashtable_get_next_int(HashTable* hashtable, char** buffer_key, int* buffer_value) {
+bool hashtable_get_next_int(HashTable* hashtable, char** buffer_key, int64_t* buffer_value) {
     if (hashtable->type != INT_T) return false;
 
     HashEntry buffer;
     if (hashtable_get_next(hashtable, &buffer)) {
         *buffer_key = buffer.key;
-        *buffer_value = *(int*)buffer.value;
+        *buffer_value = *(int64_t*)buffer.value;
         return true;
     }
 

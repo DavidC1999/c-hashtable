@@ -2,6 +2,7 @@
 #define _HASHTABLE_H
 
 #include <stdbool.h>
+#include <stdint.h>
 #include <stdlib.h>
 
 enum HashTableType {
@@ -25,7 +26,7 @@ typedef struct HashTable {
 // specific set method for int
 // handles type checking
 // returns: success or not
-bool hashtable_set_int(HashTable* hashtable, char* key, int value);
+bool hashtable_set_int(HashTable* hashtable, char* key, int64_t value);
 
 // general set method
 // type-unsafe
@@ -35,7 +36,7 @@ bool hashtable_set(HashTable* hashtable, char* key, void* value);
 // specific get method for int
 // handles type checking
 // returns: success or not
-bool hashtable_get_int(HashTable* hashtable, int* buffer, char* key);
+bool hashtable_get_int(HashTable* hashtable, int64_t* buffer, char* key);
 
 // general get method
 // type-unsafe
@@ -53,7 +54,7 @@ bool hashtable_get_next(HashTable* hashtable, HashEntry* buffer);
 // gets the next int in the hashtable
 // type-safe
 // returns: True if an item has been written to buffer. False if the latest item was the last one
-bool hashtable_get_next_int(HashTable* hashtable, char** buffer_key, int* buffer_value);
+bool hashtable_get_next_int(HashTable* hashtable, char** buffer_key, int64_t* buffer_value);
 
 // mallocs a new hashtable with initial values
 HashTable* hashtable_new(enum HashTableType type, size_t size);

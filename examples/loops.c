@@ -1,3 +1,4 @@
+#include <stdint.h>
 #include <stdio.h>
 
 #include "hashtable.h"
@@ -17,9 +18,9 @@ int main() {
     hashtable_set_int(my_hashtable, "h", 9);
 
     char* key;
-    int value;
+    int64_t value;
     while (hashtable_get_next_int(my_hashtable, &key, &value)) {
-        printf("%s: %d\n", key, value);
+        printf("%s: %ld\n", key, value);
     }
 
     return 0;
