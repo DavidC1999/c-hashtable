@@ -18,7 +18,7 @@ int main() {
 
     char* key;
     int value;
-    while(hashtable_get_next_int(my_hashtable, &key, &value)) {
+    while (hashtable_get_next_int(my_hashtable, &key, &value)) {
         printf("%s: %d\n", key, value);
     }
 

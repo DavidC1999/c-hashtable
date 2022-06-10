@@ -2,23 +2,24 @@
 #define _HASHTABLE_H
 
 #include <stdbool.h>
+#include <stdlib.h>
 
 enum HashTableType {
-	INT_T,
-	ANY_T
+    INT_T,
+    ANY_T
 };
 
 typedef struct HashEntry {
-	bool taken;
-	char* key;
-	void* value;
+    bool taken;
+    char* key;
+    void* value;
 } HashEntry;
 
 typedef struct HashTable {
-	enum HashTableType type;
-	size_t size;
-	bool free_entry_values;
-	HashEntry* entries;
+    enum HashTableType type;
+    size_t size;
+    bool free_entry_values;
+    HashEntry* entries;
 } HashTable;
 
 // specific set method for int
@@ -65,4 +66,4 @@ void hashtable_force_free_values(HashTable* hashtable);
 // frees the hashtable
 void hashtable_free(HashTable* hashtable);
 
-#endif // _HASHTABLE_H
+#endif  // _HASHTABLE_H
