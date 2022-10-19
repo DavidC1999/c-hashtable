@@ -3,5 +3,5 @@ project(hashtable_c C)
 
 set(CMAKE_C_STANDARD 17)
 
-add_library(hashtable_c hashtable.c)
+add_library(hashtable_c ${CMAKE_CURRENT_LIST_DIR}/hashtable.c)
 
