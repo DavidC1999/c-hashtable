@@ -4,23 +4,24 @@
 #include "hashtable.h"
 
 int main() {
-    HashTable* my_hashtable = hashtable_new(INT_T, 20);
+    HashTable* my_hashtable = hashtable_new(20);
 
-    hashtable_set_int(my_hashtable, "a", 0);
-    hashtable_set_int(my_hashtable, "b", 1);
-    hashtable_set_int(my_hashtable, "c", 2);
-    hashtable_set_int(my_hashtable, "d", 3);
-    hashtable_set_int(my_hashtable, "e", 4);
-    hashtable_set_int(my_hashtable, "f", 5);
-    hashtable_set_int(my_hashtable, "g", 6);
-    hashtable_set_int(my_hashtable, "h", 7);
-    hashtable_set_int(my_hashtable, "h", 8);
-    hashtable_set_int(my_hashtable, "h", 9);
+    uint64_t ints[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+    hashtable_set(my_hashtable, "a", ints + 0);
+    hashtable_set(my_hashtable, "b", ints + 1);
+    hashtable_set(my_hashtable, "c", ints + 2);
+    hashtable_set(my_hashtable, "d", ints + 3);
+    hashtable_set(my_hashtable, "e", ints + 4);
+    hashtable_set(my_hashtable, "f", ints + 5);
+    hashtable_set(my_hashtable, "g", ints + 6);
+    hashtable_set(my_hashtable, "h", ints + 7);
+    hashtable_set(my_hashtable, "h", ints + 8);
+    hashtable_set(my_hashtable, "h", ints + 9);
 
     char* key;
-    int64_t value;
-    while (hashtable_get_next_int(my_hashtable, &key, &value)) {
-        printf("%s: %ld\n", key, value);
+    int64_t* value_ptr;
+    while (hashtable_get_next(my_hashtable, &key, (void**)&value_ptr)) {
+        printf("%s: %ld\n", key, *value_ptr);
     }
 
     return 0;
